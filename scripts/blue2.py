@@ -12,7 +12,7 @@ ARDUINO0 = "/dev/ttyUSB0"
 # ser = serial.Serial(ARDUINO0, 57600)
 ser = serial.Serial(ARDUINO0, 57600, timeout=1)
 
-master_markers=(1,2,3,4,5,6,10,11)
+master_markers=(-1,1,2,3,4,5,6,10,11)
 
 
 # -------- Main Program Loop -----------
@@ -38,8 +38,9 @@ def main():
     except:
         pass
 
-def leftsearch(getreq,removeids):
-    removeids.append(-1)
+def leftsearch(getreq,remainid):
+    removeids=list(master_markers)
+    removeids.remove(remainid)
     while True:
         motor(30,-30)
         time.sleep(1)
@@ -50,8 +51,9 @@ def leftsearch(getreq,removeids):
         except rospy.ServiceException, e:
             print "Service call failed: %s"%e
 
-def rightsearch(getreq,removeids):
-    removeids.append(-1)
+def rightsearch(getreq,remainid):
+    removeids=list(master_markers)
+    removeids.remove(remainid)
     while True:
         motor(-30,30)
         time.sleep(0.05)
@@ -74,15 +76,17 @@ def setspeed():
             if r1.id==-1:
                 motor(r1.leftv,r1.rightv)
             elif r1.id == 1:
-                rightsearch(getreq,[1,3,4,5,0])
+                rightsearch(getreq,2)
             elif r1.id == 2:
-                rightsearch(getreq,[1,2,4,5,0])
+                rightsearch(getreq,3)
             elif r1.id==3:
-                leftsearch(getreq,[1,2,3,5,0])
+                leftsearch(getreq,4)
             elif r1.id==4:
-                leftsearch(getreq,[1,2,3,4,0])
+                leftsearch(getreq,5)
             elif r1.id==5:
-                rightsearch(getreq,[1,2,3,4,5])
+                rightsearch(getreq,0)
+            elif r1.id==10: #中継
+                pass
             elif r1.id==0:
                 motor(0,0)
         except rospy.ServiceException, e:
