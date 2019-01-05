@@ -42,9 +42,9 @@ def setspeed():
     while True:
         test=ser.readline()
         if flag:
-            motor(-30,30)
+            motor(200,200)
         else:
-            motor(0,0)
+            motor(200,200)
         if time.time()-start>7:
             flag=False
         #    start=time.time()

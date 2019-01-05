@@ -67,10 +67,10 @@ def rightsearch(getreq,remainid):
 
 def setspeed():
     rospy.wait_for_service("get_speed_req")
-    getreq=rospy.ServiceProxy("get_speed_req", GetSpeedReq)
     while True:
         test=ser.readline()
         try:
+            getreq=rospy.ServiceProxy("get_speed_req", GetSpeedReq)
             r1=getreq(1) #範囲制限付きマーカー検索リクエスト
             print("receive: id:%d, l_v:%d, r_v:%d" %(r1.id,r1.leftv,r1.rightv))
             if r1.id==-1:
