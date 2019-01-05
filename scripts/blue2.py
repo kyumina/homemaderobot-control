@@ -65,9 +65,6 @@ def rightsearch(getreq,remainid):
         except rospy.ServiceException, e:
             print "Service call failed: %s"%e
 
-def relay(getreq):
-    r1=getreq(1)
-    
 
 def setspeed():
     rospy.wait_for_service("get_speed_req")
@@ -89,8 +86,8 @@ def setspeed():
                 leftsearch(getreq,5)
             elif r1.id==5:
                 rightsearch(getreq,0)
-            elif r1.id==10: #中継
-                pass
+            elif r1.id in range(10,20): #中継
+                motor(r1.left_v,r1.right_v)
             elif r1.id==0:
                 motor(0,0)
         except rospy.ServiceException, e:
