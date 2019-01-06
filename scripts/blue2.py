@@ -90,7 +90,7 @@ def setspeed():
                 rightsearch(getreq,0)
             elif r1.id in range(10,20): #中継
                 motor(r1.left_v,r1.right_v)
-            elif r1.id==0:
+            elif r1.id==6:
                 motor(0,0)
         except rospy.ServiceException, e:
             print "Service call failed: %s"%e
