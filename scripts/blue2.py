@@ -13,7 +13,7 @@ ARDUINO0 = "/dev/ttyUSB0"
 ser = serial.Serial(ARDUINO0, 57600, timeout=1)
 
 master_markers=(-1,1,2,3,4,5,6,10,11)
-
+stopflag=True
 
 # -------- Main Program Loop -----------
 
@@ -39,12 +39,13 @@ def main():
         pass
 
 def leftsearch(getreq,remainid):
-    time.sleep(0.5) #マーカーに近づける
+    motor(30,30)
+    time.sleep(10) #マーカーに近づける
     removeids=list(master_markers)
     removeids.remove(remainid) #ただし10~19(中継)はremoveidsには含まない
     while True:
         motor(30,-30)
-        time.sleep(1)
+        time.sleep(0.05)
         try:
             r1=getreq(2) #req:2 単純マーカー検索リクエスト
             if not(r1.id in removeids):
@@ -53,7 +54,8 @@ def leftsearch(getreq,remainid):
             print "Service call failed: %s"%e
 
 def rightsearch(getreq,remainid):
-    time.sleep(0.5) #マーカーに近づける
+    motor(30,30)
+    time.sleep(10) #マーカーに近づける
     removeids=list(master_markers)
     removeids.remove(remainid)
     while True:
@@ -87,10 +89,14 @@ def setspeed():
             elif r1.id==4:
                 rightsearch(getreq,5)
             elif r1.id==5:
-                rightsearch(getreq,0)
+                rightsearch(getreq,6)
             elif r1.id in range(10,20): #中継
                 motor(r1.left_v,r1.right_v)
             elif r1.id==6:
+                if stopflag:
+                    motor(30,30)
+                    time.sleep(10)
+                    stopflag=False
                 motor(0,0)
         except rospy.ServiceException, e:
             print "Service call failed: %s"%e
