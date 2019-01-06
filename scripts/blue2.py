@@ -39,6 +39,7 @@ def main():
         pass
 
 def leftsearch(getreq,remainid):
+    time.sleep(0.5) #マーカーに近づける
     removeids=list(master_markers)
     removeids.remove(remainid) #ただし10~19(中継)はremoveidsには含まない
     while True:
@@ -52,6 +53,7 @@ def leftsearch(getreq,remainid):
             print "Service call failed: %s"%e
 
 def rightsearch(getreq,remainid):
+    time.sleep(0.5) #マーカーに近づける
     removeids=list(master_markers)
     removeids.remove(remainid)
     while True:
@@ -83,7 +85,7 @@ def setspeed():
             elif r1.id==3:
                 leftsearch(getreq,4)
             elif r1.id==4:
-                leftsearch(getreq,5)
+                rightsearch(getreq,5)
             elif r1.id==5:
                 rightsearch(getreq,0)
             elif r1.id in range(10,20): #中継
