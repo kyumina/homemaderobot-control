@@ -40,7 +40,7 @@ def main():
 
 def leftsearch(getreq,remainid):
     removeids=list(master_markers)
-    removeids.remove(remainid)
+    removeids.remove(remainid) #ただし10~19(中継)はremoveidsには含まない
     while True:
         motor(30,-30)
         time.sleep(1)
